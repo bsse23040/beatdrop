@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Track</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+      width: 350px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    input, select {
+      background-color: #2a2a2a;
+      color: #fff;
+    }
+
+    input:read-only {
+      cursor: not-allowed;
+    }
+
+    button {
+      background-color: #1db954;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #17a44a;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1db954;
+    }
+  </style>
+</head>
+<body>
+  <form action="add_song.php" method="POST" enctype="multipart/form-data">
+    <h1>Upload Track</h1>
+    
+    <input type="text" name="track_name" id="track_name" placeholder="Track Name" readonly required>
+
+    <select name="artist_id" id="artist_select" required>
+      <option value="">Select Artist</option>
+    </select>
+
+    <input type="number" name="duration" id="duration" placeholder="Duration (sec)" readonly required>
+
+    <input type="file" name="music_file" id="music_file" accept=".mp3" required>
+
+    <button type="submit">Upload</button>
+  </form>
+
+  <script>
+    // Load artists
+    fetch('get_artists.php')
+      .then(res => res.json())
+      .then(data => {
+        const select = document.getElementById('artist_select');
+        data.forEach(artist => {
+          const option = document.createElement('option');
+          option.value = artist.artist_id;
+          option.textContent = artist.name;
+          select.appendChild(option);
+        });
+      });
+
+    // Auto-fill name & duration
+    document.getElementById('music_file').addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      document.getElementById('track_name').value = file.name.replace(/\.[^/.]+$/, '');
+
+      const audio = document.createElement('audio');
+      audio.preload = 'metadata';
+      audio.onloadedmetadata = () => {
+        window.URL.revokeObjectURL(audio.src);
+        document.getElementById('duration').value = Math.floor(audio.duration);
+      };
+      audio.src = URL.createObjectURL(file);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+/* Basic Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+    height: 100vh;
+    background: #121212;
+    color: white;
+}
+
+/* Video Background Container */
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+/* Background Video */
+.background-video video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Fallback Gradient Background */
+.fallback-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, #1DB954, #f1fff0);
+    opacity: 0.4;
+    z-index: -1;
+}
+
+/* Audio Wave Animation */
+.audio-wave {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+    z-index: 2;
+    position: relative;
+    margin-top: 10vh;
+}
+
+.audio-wave span {
+    display: block;
+    width: 6px;
+    height: 30px;
+    background: #1DB954;
+    animation: bounce 1s infinite ease-in-out;
+}
+
+.audio-wave span:nth-child(2) { animation-delay: 0.1s; }
+.audio-wave span:nth-child(3) { animation-delay: 0.2s; }
+.audio-wave span:nth-child(4) { animation-delay: 0.3s; }
+.audio-wave span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 100% { transform: scaleY(0.4); }
+    50% { transform: scaleY(1); }
+}
+
+/* Main Container */
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    margin-top: 5vh;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    backdrop-filter: blur(40px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    font-size: 3em;
+    color: #1DB954;
+    margin-bottom: 10px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 30px 0;
+}
+
+input {
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: none;
+    width: 60%;
+    background: #b5d8bb;
+    color: rgb(58, 58, 58);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 14px 24px;
+    font-size: 16px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 30px;
+    background: #1DB954;
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #17a74b;
+}
+
+/* Recommendations Card */
+#recommendations .card {
+    background: #b5d8bb;
+    padding: 25px;
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+    text-align: left;
+    backdrop-filter: blur(50px);
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}

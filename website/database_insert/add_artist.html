@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Artist - VTR Spotify</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      background-color: #181818;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      text-align: center;
+      color: #1db954;
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    select,
+    input[type="file"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #282828;
+      color: #fff;
+      margin-bottom: 20px;
+      resize: vertical;
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #1db954;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #17a44c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Add New Artist</h2>
+    <form action="add_artist.php" method="POST" enctype="multipart/form-data">
+      <label for="name">Artist Name:</label>
+      <input type="text" name="name" id="name" required />
+
+      <label for="genre_id">Select Genre:</label>
+      <select name="genre_id" id="genre_id" required>
+        <option value="">-- Select Genre --</option>
+      </select>
+
+      <label for="info">Artist Info:</label>
+      <textarea name="info" id="info" rows="4" placeholder="Enter artist information..."></textarea>
+
+      <label for="image">Upload Artist Image (optional, jpg, jpeg, png):</label>
+      <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png" />
+
+      <input type="submit" value="Add Artist" />
+    </form>
+  </div>
+
+  <script>
+    fetch('get_genres.php')
+      .then(response => response.json())
+      .then(data => {
+        const genreSelect = document.getElementById('genre_id');
+        data.forEach(genre => {
+          const option = document.createElement('option');
+          option.value = genre.genre_id;
+          option.textContent = genre.name;
+          genreSelect.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching genres:", error);
+      });
+  </script>
+</body>
+</html>

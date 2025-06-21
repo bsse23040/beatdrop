@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BeatSense - AI Music Buddy</title>
+    <link rel="stylesheet" href="BeatSense.css" />
+</head>
+<body>
+    <!-- Background Video -->
+    <div class="background-video">
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="background.mp4" type="video/mp4">
+        </video>
+        <div class="fallback-bg"></div>
+    </div>
+
+    <!-- Audio Bars Animation -->
+    <div class="audio-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="container">
+        <h1>BeatSense AI</h1>
+        <p>Your quirky AI DJ. Ask anything about music, genres, artists, or let me drop some facts! 🎧</p>
+
+        <div class="input-container">
+            <input type="text" id="musicInput" placeholder="Try: Latest Album of Karan Aujla...">
+            <button id="recommendBtn">Ask BeatSense</button>
+        </div>
+
+        <div id="recommendations"></div>
+    </div>
+
+    <script src="BeatSense.js"></script>
+</body>
+</html>
