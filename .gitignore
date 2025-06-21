@@ -1,0 +1,3 @@
+# .gitignore
+.env
+logins/db_config.php
