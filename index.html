@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auto-Rotating 3D Model & Signup Form</title>
+  <style>
+    body {
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#container3D {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+}
+
+#signupFormContainer {
+  position: absolute;
+  color: white;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* Optional: makes model still draggable */
+}
+
+#signupForm {
+  backdrop-filter: blur(20px);
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  pointer-events: auto; /* Allows form interaction */
+  width: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  width: 95%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  background-color: #000000;
+  border: 2px solid #ffffff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #00d748;
+  border: 2px solid #00d748;
+  color: aliceblue;
+  transition-duration: 0.9s;
+}
+
+  </style>
+</head>
+<body>
+  <div id="container3D"></div>
+  <div id="signupFormContainer">
+    <div id="signupForm">
+      <h2>Create an Account</h2>
+      <form action="logins/signup.php" method="post">
+        <input type="text" id="name" name="name" placeholder="Full Name" />
+        <input type="email" id="email" name="email" placeholder="Email" />
+        <input type="password" id="password" name="password" placeholder="Password" />
+        <input type="date" id="dob" name="dob" placeholder="Date of Birth" />
+        <button type="submit">Sign Up</button>
+      </form>
+        <div style="display: flex; flex-direction: row;"><pre>Already have an account? </pre> <a href="logins/signin.html" style="color: #98f96a; padding-top: 11px; text-decoration: none;">Sign In</a></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
+    import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
+    import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
+
+    const container = document.getElementById("container3D");
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x212121);
+
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 1, 3);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+    scene.add(ambientLight);
+
+    const light1 = new THREE.DirectionalLight(0xffffff, 1);
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
+
+    const light2 = new THREE.DirectionalLight(0xffffff, 1);
+    light2.position.set(-5, 5, 5);
+    scene.add(light2);
+
+    const light3 = new THREE.DirectionalLight(0xffffff, 1);
+    light3.position.set(0, -5, 5);
+    scene.add(light3);
+
+    const light4 = new THREE.DirectionalLight(0xffffff, 1);
+    light4.position.set(0, 5, -5);
+    scene.add(light4);
+
+    const loader = new GLTFLoader();
+    let model;
+
+    loader.load('./logins/headphones.glb', (gltf) => {
+      model = gltf.scene;
+      model.rotation.x = Math.PI / 2;
+      model.scale.set(0.25, 0.25, 0.25);
+      scene.add(model);
+    }, undefined, (error) => {
+      console.error('Error loading model:', error);
+    });
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 2.0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
